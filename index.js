@@ -27,4 +27,3 @@ app.use("/vigia", vigiaRotes);
 app.listen(PORT, () => {
     console.log(`rodando na port: ${PORT}`);
 });
- 

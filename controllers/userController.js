@@ -1,9 +1,4 @@
 const UsuarioCadastrar = require("../models/userModels");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-
-const JWT_SECRET = process.env.JWT_SECRET || " ";
 
 exports.adduser = async (req, res) => {
     const { nome, password } = req.body;
@@ -17,12 +12,9 @@ exports.adduser = async (req, res) => {
         return res.status(422).json({ msg: "Usuário já cadastrado!" });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const senhaHash = await bcrypt.hash(password, salt);
-
     const criarUsuario = new UsuarioCadastrar({
         nome,
-        password: senhaHash,
+        password, // Senha armazenada diretamente (NÃO RECOMENDADO para produção)
     });
 
     try {
@@ -46,17 +38,14 @@ exports.loginUser = async (req, res) => {
             return res.status(404).json({ msg: "Usuário não encontrado!" });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
+        if (password !== user.password) {
             return res.status(401).json({ msg: "Senha inválida!" });
         }
 
-        const token = jwt.sign({ id: user._id, nome: user.nome }, JWT_SECRET, { expiresIn: "1h" });
-
+        // Removido o JWT e o retorno de token
         res.status(200).json({
             msg: "Login bem-sucedido!",
-            user: { id: user._id, nome: user.nome },
-            token
+            user: { id: user._id, nome: user.nome }
         });
     } catch (error) {
         console.error("Erro no login:", error);
