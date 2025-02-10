@@ -57,7 +57,7 @@ exports.deletarCheckList = async (req, res) => {
     const { id } = req.params; // Pegando o ID corretamente da URL
     const { senha } = req.body; // Pegando a senha do corpo da requisição
 
-    const senhaCorreta = "1234"; // Senha fixa para teste (substitua por uma mais segura)
+    const senhaCorreta = "sms2025an"; // Senha fixa para teste (substitua por uma mais segura)
 
     try {
         if (!senha) {
