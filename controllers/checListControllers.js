@@ -43,20 +43,14 @@ exports.addCheckList = async (req, res) => {
 
 // Buscar checklist específico pelo veículo
 exports.listarCheckLists = async (req, res) => {
-    const { veiculo } = req.params;
-
-    try {
-        const checkList = await CheckList.findOne({ veiculo });
-
-        if (!checkList) {
-            return res.status(404).json({ msg: "Checklist para este veículo não encontrado!" });
-        }
-
-        res.status(200).json(checkList);
+    try { 
+        const checkLists = await CheckList.find();
+        res.status(200).json(checkLists);
     } catch (error) {
-        res.status(500).json({ msg: "Erro ao buscar o checklist", error: error.message });
+        res.status(500).json({ msg: "Erro ao buscar os checklists", error: error.message });
     }
 };
+
 
 
 exports.deletarCheckList = async (req, res) => {
