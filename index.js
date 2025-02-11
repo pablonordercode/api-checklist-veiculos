@@ -4,7 +4,9 @@ const checkListModels = require("./routes/checkListRoutes");
 const motoristaControlers = require("./routes/motoristaRoutes");
 const vigiaRotes = require("./routes/vigiaRoutes");
 const conectarDataBase = require("./db/conn");
+
 const cors = require("cors");
+app.use(cors({ origin: "https://checklist-de-veiculo-2025.vercel.app" }));
 
 require("dotenv").config();
 
