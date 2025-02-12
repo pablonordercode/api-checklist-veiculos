@@ -55,19 +55,8 @@ exports.listarCheckLists = async (req, res) => {
 
 exports.deletarCheckList = async (req, res) => {
     const { id } = req.params; // Pegando o ID corretamente da URL
-    const { senha } = req.body; // Pegando a senha do corpo da requisição
-
-    const senhaCorreta = "sms2025an"; // Senha fixa para teste (substitua por uma mais segura)
 
     try {
-        if (!senha) {
-            return res.status(400).json({ msg: "Senha obrigatória!" });
-        }
-
-        if (senha !== senhaCorreta) {
-            return res.status(401).json({ msg: "Senha incorreta! Ação não permitida." });
-        }
-
         const checkListDeletado = await CheckList.findByIdAndDelete(id);
 
         if (!checkListDeletado) {
