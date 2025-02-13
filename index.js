@@ -5,8 +5,13 @@ const motoristaControlers = require("./routes/motoristaRoutes");
 const vigiaRotes = require("./routes/vigiaRoutes");
 const conectarDataBase = require("./db/conn");
 
-const cors = require("cors");
-app.use(cors({ origin: "https://checklist-de-veiculo-2025.vercel.app" }));
+const cors = require('cors');
+app.use(cors({
+  origin: '*', // Permite requisições de qualquer origem (em produção, use domínios específicos)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
+}));
+
 
 require("dotenv").config();
 
