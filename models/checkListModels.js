@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const veiculos = ["S-10", "Gol preto", "Estrada", "Fiorino", "L-200", "Spin"];
+const veiculos = ["S-10", "Gol preto", "Gol branco", "Estrada", "Fiorino", "L-200", "Spin"];
 
 const CheckListSchema = new mongoose.Schema({
     veiculo: {
@@ -8,7 +8,11 @@ const CheckListSchema = new mongoose.Schema({
         enum: veiculos,
         required: true,
     },
-    limpesaDoVeiculo: {
+    macaco: {
+        type: String,
+        required: true,
+    },
+    chaveDeRoda: {
         type: String,
         required: true,
     },
