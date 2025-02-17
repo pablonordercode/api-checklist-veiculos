@@ -1,23 +1,24 @@
 // Adicionar um novo 
 const { CheckList, veiculos } = require("../models/checkListModels"); // Importação correta
 const Motoristadehoje = require("../models/motoristaModels")
+const mongoose = require("mongoose");
 
 exports.addCheckList = async (req, res) => {
     try {
         const {
-            veiculo, limpesaDoVeiculo, oleoMotor, aguaRadiador, transmissao, freios, pneusDianteiro, 
+            veiculo, macaco,chaveDeRoda, oleoMotor, aguaRadiador, transmissao, freios, pneusDianteiro, 
             pneusTraseiros, farolDireito, farolEsquerdo, lanternaDireita, lanternaEsquerda,
             arCondicionado, observacao, motorista
         } = req.body;
 
         // Lista de veículos válidos
-        const veiculosValidos = ["S-10", "Estrada", "Fiorino", "Gol preto", "L-200"];
+        const veiculosValidos = ["S-10", "Estrada", "Fiorino", "Gol preto","Gol branco", "L-200"];
         if (!veiculosValidos.includes(veiculo)) {
             return res.status(400).json({ msg: `O veículo '${veiculo}' não é válido!` });
         }
 
         // Verificação de campos obrigatórios
-        if (!veiculo || !limpesaDoVeiculo || !motorista || !oleoMotor || !aguaRadiador || !transmissao || !freios || !pneusDianteiro || 
+        if (!veiculo || !macaco || !chaveDeRoda || !motorista || !oleoMotor || !aguaRadiador || !transmissao || !freios || !pneusDianteiro || 
             !pneusTraseiros || !farolDireito || !farolEsquerdo || !lanternaDireita || !lanternaEsquerda || !arCondicionado) {
             return res.status(400).json({ msg: "Todos os campos obrigatórios devem ser preenchidos!" });
         }
@@ -27,7 +28,7 @@ exports.addCheckList = async (req, res) => {
 
         // Criando novo checklist
         const novoCheckList = new CheckList({
-            veiculo, limpesaDoVeiculo, motorista, oleoMotor, aguaRadiador, transmissao, freios, pneusDianteiro, pneusTraseiros,
+            veiculo, macaco, chaveDeRoda, motorista, oleoMotor, aguaRadiador, transmissao, freios, pneusDianteiro, pneusTraseiros,
             farolDireito, farolEsquerdo, lanternaDireita, lanternaEsquerda, arCondicionado,
             observacao: observacao || "", foto
         });
@@ -41,9 +42,8 @@ exports.addCheckList = async (req, res) => {
     }
 };
 
-// Buscar checklist específico pelo veículo
 exports.listarCheckLists = async (req, res) => {
-    try { 
+    try {
         const checkLists = await CheckList.find();
         res.status(200).json(checkLists);
     } catch (error) {
@@ -51,20 +51,24 @@ exports.listarCheckLists = async (req, res) => {
     }
 };
 
-
-
 exports.deletarCheckList = async (req, res) => {
-    const { id } = req.params; // Pegando o ID corretamente da URL
+  const { id } = req.params;
 
-    try {
-        const checkListDeletado = await CheckList.findByIdAndDelete(id);
+  // Verifica se o ID é válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ msg: "ID inválido para deletar o checklist!" });
+  }
 
-        if (!checkListDeletado) {
-            return res.status(404).json({ msg: "Checklist não encontrado para deletar!" });
-        }
-
-        res.status(200).json({ msg: "Checklist removido com sucesso!", checkListDeletado });
-    } catch (error) {
-        res.status(500).json({ msg: "Erro ao deletar o checklist", error: error.message });
+  try {
+    const checkListDeletado = await CheckList.findByIdAndDelete(id);
+    if (!checkListDeletado) {
+      return res.status(404).json({ msg: "Checklist não encontrado para deletar!" });
     }
+    res.status(200).json({ msg: "Checklist removido com sucesso!", checkListDeletado });
+  } catch (error) {
+    res.status(500).json({ msg: "Erro ao deletar o checklist", error: error.message });
+  }
 };
+
+
+
