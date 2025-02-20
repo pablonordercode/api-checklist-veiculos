@@ -12,7 +12,7 @@ exports.addCheckList = async (req, res) => {
         } = req.body;
 
         // Lista de veículos válidos
-        const veiculosValidos = ["S-10", "Estrada", "Fiorino", "Gol preto","Gol branco", "L-200"];
+        const veiculosValidos = ["S-10", "Estrada", "Fiorino", "Gol preto","Gol branco", "L-200", "Spin"];
         if (!veiculosValidos.includes(veiculo)) {
             return res.status(400).json({ msg: `O veículo '${veiculo}' não é válido!` });
         }
